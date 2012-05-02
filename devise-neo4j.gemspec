@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "oa-oauth", "~> 0.2.0"
   s.add_runtime_dependency "oa-openid", "~> 0.2.0"
   s.add_runtime_dependency "neo4j"
-  s.add_runtime_dependency "devise", "~> 1.3"
+  s.add_runtime_dependency "devise"
   
   s.add_development_dependency "rails", "~> 3.0"
   s.add_development_dependency "rake"
