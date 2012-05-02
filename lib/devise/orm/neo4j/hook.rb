@@ -14,7 +14,7 @@ module Devise
         # Overwrite the devise method to control indexation dependent on the specified modules
         def devise(*modules)
           # hack to get around Neo4j's requirement to index before uniqueness validation
-          index :email, :type => :fulltext if modules.include?(:validatable) && !index?('email')
+          property :email, :index => :exact if modules.include?(:validatable) && !index?('email')
           super
         end
       end

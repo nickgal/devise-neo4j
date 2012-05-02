@@ -4,8 +4,7 @@ class User < Neo4j::Rails::Model
   include Shim
   include SharedUser
 
-  index      :username
-  property   :username
+  property   :username, :index => :exact
 
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me
 end

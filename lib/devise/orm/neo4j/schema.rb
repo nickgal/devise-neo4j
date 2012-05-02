@@ -8,7 +8,6 @@ module Devise
   
         # Tell how to apply schema methods
         def apply_devise_schema(name, type, options={})
-          index name, :type => :exact if INDEXED_PROPERTIES.include?(name)
           create_property(name, type, options)
         end
         
@@ -19,8 +18,10 @@ module Devise
           
           # If the property is required, its presence should be checked anyway
           options.delete(:null)
-          
-          property name, { :type => map_type(type) }.merge!(options)
+          prop_conf = { :type => map_type(type) }
+          prop_conf[:index] = :exact if INDEXED_PROPERTIES.include?(name)
+          prop_conf.merge!(options)
+          property name, prop_conf
         end
 
         # map the Java type to the right Ruby type

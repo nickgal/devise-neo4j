@@ -4,6 +4,5 @@ class Admin < Neo4j::Rails::Model
   include Shim
   include SharedAdmin
   
-  index     :remember_token
-  property   :remember_token
+  property   :remember_token, :index => :exact
 end
