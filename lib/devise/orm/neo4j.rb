@@ -4,7 +4,7 @@ module Neo4j
   module Rails
     class Model
       extend ::Devise::Models
-      extend ::Devise::Orm::Neo4j::Hook
+      #extend ::Devise::Orm::Neo4j::Hook
     end
   end
 end

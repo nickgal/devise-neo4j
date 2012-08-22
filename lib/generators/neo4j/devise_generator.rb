@@ -10,11 +10,17 @@ module Neo4j
       end
 
       def inject_devise_content
-        inject_into_file(model_path, model_contents + <<CONTENT, :after => /Neo4j(::Rails)?::Model\n/) if model_exists?
+        content = model_contents + <<CONTENT
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
 CONTENT
-      end
+
+        class_path = class_name.to_s.split("::")
+
+        indent_depth = class_path.size - 1
+        content = content.split("\n").map { |line| "  " * indent_depth + line } .join("\n") << "\n"
+
+        inject_into_class(model_path, class_path.last, content) if model_exists?end
     end
   end
 end
