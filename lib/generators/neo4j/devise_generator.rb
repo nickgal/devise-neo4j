@@ -28,7 +28,7 @@ module Neo4j
   property :remember_created_at,    :type => Time
 
   ## Trackable
-  property :sign_in_count,          :type => Integer, :default => 0
+  property :sign_in_count,          :type => Fixnum, :default => 0
   property :current_sign_in_at,     :type => Time
   property :last_sign_in_at,        :type => Time
   property :current_sign_in_ip,     :type => String
@@ -41,13 +41,13 @@ module Neo4j
   # property :unconfirmed_email,    :type => String, :index => :exact # Only if using reconfirmable
   
   ## Lockable
-  # property :failed_attempts,      :type => Integer, :default => 0    # Only if lock strategy is :failed_attempts
+  # property :failed_attempts,      :type => Fixnum, :default => 0    # Only if lock strategy is :failed_attempts
   # property :unlock_token,         :type => String, :index => :exact # Only if unlock strategy is :email or :both
   # property :locked_at,            :type => Time
   
   ## Token authenticatable
   # property :authentication_token, :type => String, :index => :exact
-  
+
 PRE_CONTENT
        
         content = pre_content + model_contents + <<CONTENT
