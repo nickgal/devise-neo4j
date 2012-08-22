@@ -26,16 +26,20 @@ CONTENT
       def migration_data
 <<RUBY
   ## Database authenticatable
-  property :email,                  :type => String, :default => "", :null => false, :index => :exact
+  property :email,                  :type => String, :default => "", :null => false
   property :encrypted_password,     :type => String
+
+  index :email
 
   validates_presence_of :email
   validates_uniqueness_of :email
   validates_presence_of :encrypted_password
   
   ## Recoverable
-  property :reset_password_token,   :type => String, :index => :exact
+  property :reset_password_token,   :type => String
   property :reset_password_sent_at, :type => DateTime
+
+  index :reset_password_token
 
   ## Rememberable
   property :remember_created_at,    :type => DateTime
@@ -48,18 +52,25 @@ CONTENT
   property :last_sign_in_ip,        :type => String
 
   ## Confirmable
-  # property :confirmation_token,   :type => String, :index => :exact
+  # property :confirmation_token,   :type => String
   # property :confirmed_at,         :type => DateTime
   # property :confirmation_sent_at, :type => DateTime
-  # property :unconfirmed_email,    :type => String, :index => :exact # Only if using reconfirmable
+  # property :unconfirmed_email,    :type => String # Only if using reconfirmable
+  #
+  # index :confirmation_token
+  # index :unconfirmed_email
 
   ## Lockable
   # property :failed_attempts,      :type => Integer, :default => 0    # Only if lock strategy is :failed_attempts
-  # property :unlock_token,         :type => String, :index => :exact # Only if unlock strategy is :email or :both
+  # property :unlock_token,         :type => String # Only if unlock strategy is :email or :both
   # property :locked_at,            :type => DateTime
+  #
+  # index :unlock_token
 
   ## Token authenticatable
-  # property :authentication_token, :type => String, :index => :exact
+  # property :authentication_token, :type => String
+  #
+  # index :authentication_token
 RUBY
       end
     end
