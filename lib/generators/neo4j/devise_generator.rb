@@ -47,6 +47,7 @@ module Neo4j
   
   ## Token authenticatable
   # property :authentication_token, :type => String, :index => :exact
+  
 PRE_CONTENT
        
         content = pre_content + model_contents + <<CONTENT
