@@ -9,12 +9,6 @@ module Neo4j
         invoke "neo4j:model", [name] unless model_exists? && behavior == :invoke
       end
 
-      def model_contents
-        CONTENT
-  
-  CONTENT + super
-      end
-
       def inject_devise_content
         pre_content <<PRE_CONTENT
 ## Database authenticatable
