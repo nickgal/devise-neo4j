@@ -10,7 +10,7 @@ module Neo4j
       end
 
       def inject_devise_content
-        pre_content <<PRE_CONTENT
+        pre_content = <<PRE_CONTENT
 ## Database authenticatable
   property :email,                  :type => String, :default => "", :null => false, :index => :exact
   property :encrypted_password,     :type => String
