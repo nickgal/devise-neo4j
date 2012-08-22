@@ -13,18 +13,7 @@ module Neo4j
         content = model_contents + <<CONTENT
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-CONTENT
 
-        class_path = class_name.to_s.split("::")
-
-        indent_depth = class_path.size - 1
-        content = content.split("\n").map { |line| "  " * indent_depth + line } .join("\n") << "\n"
-
-        inject_into_class(model_path, class_path.last, content) if model_exists?
-      end
-
-      def migration_data
-<<RUBY
   ## Database authenticatable
   property :email,                  :type => String, :default => "", :null => false
   property :encrypted_password,     :type => String
@@ -71,7 +60,14 @@ CONTENT
   # property :authentication_token, :type => String
   #
   # index :authentication_token
-RUBY
+CONTENT
+
+        class_path = class_name.to_s.split("::")
+
+        indent_depth = class_path.size - 1
+        content = content.split("\n").map { |line| "  " * indent_depth + line } .join("\n") << "\n"
+
+        inject_into_class(model_path, class_path.last, content) if model_exists?
       end
     end
   end
