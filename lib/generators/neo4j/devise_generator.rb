@@ -9,59 +9,56 @@ module Neo4j
         invoke "neo4j:model", [name] unless model_exists? && behavior == :invoke
       end
 
-      def inject_devise_content
-        content = model_contents + <<CONTENT
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+      def model_contents
+        CONTENT
+  
+  CONTENT + super
+      end
 
-  ## Database authenticatable
-  property :email,                  :type => String, :default => "", :null => false
+      def inject_devise_content
+        pre_content <<PRE_CONTENT
+## Database authenticatable
+  property :email,                  :type => String, :default => "", :null => false, :index => :exact
   property :encrypted_password,     :type => String
 
-  index :email
-
-  validates_presence_of :email
-  validates_uniqueness_of :email
-  validates_presence_of :encrypted_password
+  validates :email, :presence => true, :uniqueness => true
+  validates :encrypted_password, :presence => true
   
   ## Recoverable
   property :reset_password_token,   :type => String
-  property :reset_password_sent_at, :type => DateTime
+  property :reset_password_sent_at, :type => Time
 
   index :reset_password_token
 
   ## Rememberable
-  property :remember_created_at,    :type => DateTime
+  property :remember_created_at,    :type => Time
 
   ## Trackable
   property :sign_in_count,          :type => Integer, :default => 0
-  property :current_sign_in_at,     :type => DateTime
-  property :last_sign_in_at,        :type => DateTime
+  property :current_sign_in_at,     :type => Time
+  property :last_sign_in_at,        :type => Time
   property :current_sign_in_ip,     :type => String
   property :last_sign_in_ip,        :type => String
 
   ## Confirmable
-  # property :confirmation_token,   :type => String
-  # property :confirmed_at,         :type => DateTime
-  # property :confirmation_sent_at, :type => DateTime
-  # property :unconfirmed_email,    :type => String # Only if using reconfirmable
-  #
-  # index :confirmation_token
-  # index :unconfirmed_email
-
+  # property :confirmation_token,   :type => String, :index => :exact
+  # property :confirmed_at,         :type => Time
+  # property :confirmation_sent_at, :type => Time
+  # property :unconfirmed_email,    :type => String, :index => :exact # Only if using reconfirmable
+  
   ## Lockable
   # property :failed_attempts,      :type => Integer, :default => 0    # Only if lock strategy is :failed_attempts
-  # property :unlock_token,         :type => String # Only if unlock strategy is :email or :both
-  # property :locked_at,            :type => DateTime
-  #
-  # index :unlock_token
-
+  # property :unlock_token,         :type => String, :index => :exact # Only if unlock strategy is :email or :both
+  # property :locked_at,            :type => Time
+  
   ## Token authenticatable
-  # property :authentication_token, :type => String
-  #
-  # index :authentication_token
+  # property :authentication_token, :type => String, :index => :exact
+PRE_CONTENT
+       
+        content = pre_content + model_contents + <<CONTENT
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me
 CONTENT
-
         class_path = class_name.to_s.split("::")
 
         indent_depth = class_path.size - 1
