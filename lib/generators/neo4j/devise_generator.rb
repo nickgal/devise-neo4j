@@ -12,6 +12,8 @@ module Neo4j
       def inject_devise_content
         pre_content = <<PRE_CONTENT
 ## Database authenticatable
+  property :id,                     :type => String
+
   property :email,                  :type => String, :default => "", :null => false, :index => :exact
   property :encrypted_password,     :type => String
 
@@ -52,7 +54,7 @@ PRE_CONTENT
        
         content = pre_content + model_contents + <<CONTENT
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :id, :email, :password, :password_confirmation, :remember_me
 CONTENT
         class_path = class_name.to_s.split("::")
 
